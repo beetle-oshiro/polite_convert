@@ -1,0 +1,15 @@
+# セキュリティ系
+.env
+*.key
+*.pem
+
+# Pythonのキャッシュ系
+__pycache__/
+*.pyc
+*.pyo
+
+# VSCode設定（共有不要なもの）
+.vscode/
+
+# 仮想環境フォルダ
+.venv/

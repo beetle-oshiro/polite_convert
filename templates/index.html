@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>敬語変換システム</title>
+</head>
+
+<body>
+    <h1>敬語変換システム</h1>
+    <form method="POST" action="/">
+        <label for="text">変換したい文章：</label><br>
+        <textarea id="text" name="text" rows="5" cols="50"></textarea><br><br>
+
+        <label for="style">相手のタイプ：</label><br>
+        <select id="style" name="style">
+            <option value="上司">上司</option>
+            <option value="先輩">先輩</option>
+            <option value="取引先">取引先</option>
+        </select><br><br>
+
+        <button type="submit">AIで敬語に変換</button>
+    </form>
+
+    {% if converted_text %}
+    <hr>
+    <h2>変換結果：</h2>
+    <p>{{ converted_text }}</p>
+    {% endif %}
+</body>
+
+</html>
