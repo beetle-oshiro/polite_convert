@@ -16,20 +16,25 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 def index():
     converted_text = None
 
-    if request.method == 'POST':
-        text = (request.form.get('text') or '').strip()
-        style = (request.form.get('style') or '上司').strip()
+    # ★追加：フォームの表示状態を保持するための変数
+    original_text = ''
+    selected_style = '上司'
 
-        if text:
+    if request.method == 'POST':
+        # ★編集：text/style を original_text/selected_style に入れる
+        original_text = (request.form.get('text') or '').strip()
+        selected_style  = (request.form.get('style') or '上司').strip()
+
+        if original_text:
             # --- 敬語変換プロンプト（最小実装） ---
             prompt = f"""
-対象: {style}
+対象: {selected_style}
 以下の日本語を、対象にふさわしい敬語・文体・語彙・結びに直してください。
 意味は変えず、冗長にせず、体裁のみ整えてください。
 出力は変換後の文章のみ（説明や前置きは不要）。
 
 原文:
-{text}
+{original_text}
 """
 
             try:
@@ -46,8 +51,13 @@ def index():
                 converted_text = f"（変換に失敗しました: {e}）"
         else:
             converted_text = "（文章が空です）"
-
-    return render_template('index.html', converted_text=converted_text)
-
+            
+    # ★編集：original_text / selected_style をテンプレへ渡す
+    return render_template(
+            'index.html',
+            converted_text=converted_text,
+            original_text=original_text,
+            selected_style=selected_style
+        )
 if __name__ == '__main__':
     app.run(debug=True)

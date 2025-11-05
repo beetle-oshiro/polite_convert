@@ -10,13 +10,15 @@
     <h1>敬語変換システム</h1>
     <form method="POST" action="/">
         <label for="text">変換したい文章：</label><br>
-        <textarea id="text" name="text" rows="5" cols="50"></textarea><br><br>
+        <!-- ★ここがポイント：POST後も original_text を差し戻す -->
+        <textarea id="text" name="text" rows="5" cols="50">{{ original_text }}</textarea><br><br>
 
         <label for="style">相手のタイプ：</label><br>
         <select id="style" name="style">
-            <option value="上司">上司</option>
-            <option value="先輩">先輩</option>
-            <option value="取引先">取引先</option>
+            <option value="上司" {{ 'selected' if selected_style=='上司' else '' }}>上司</option>
+            <option value="取引先" {{ 'selected' if selected_style=='取引先' else '' }}>取引先</option>
+            <option value="先輩" {{ 'selected' if selected_style=='先輩' else '' }}>先輩</option>
+            <option value="初対面" {{ 'selected' if selected_style=='初対面' else '' }}>初対面</option>
         </select><br><br>
 
         <button type="submit">AIで敬語に変換</button>
