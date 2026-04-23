@@ -3,32 +3,48 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>敬語変換システム</title>
+    <title>文章校正システム</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-    <h1>敬語変換システム</h1>
-    <form method="POST" action="/">
-        <label for="text">変換したい文章：</label><br>
-        <!-- ★ここがポイント：POST後も original_text を差し戻す -->
-        <textarea id="text" name="text" rows="5" cols="50">{{ original_text }}</textarea><br><br>
+    <div class="form-container">
 
-        <label for="style">相手のタイプ：</label><br>
-        <select id="style" name="style">
-            <option value="上司" {{ 'selected' if selected_style=='上司' else '' }}>上司</option>
-            <option value="取引先" {{ 'selected' if selected_style=='取引先' else '' }}>取引先</option>
-            <option value="先輩" {{ 'selected' if selected_style=='先輩' else '' }}>先輩</option>
-            <option value="初対面" {{ 'selected' if selected_style=='初対面' else '' }}>初対面</option>
-        </select><br><br>
+        <h1>文章校正システム</h1>
 
-        <button type="submit">AIで敬語に変換</button>
-    </form>
+        <p class="page-description">
+            入力した文章を用途に合わせて自然な表現に整えます。
+        </p>
 
-    {% if converted_text %}
-    <hr>
-    <h2>変換結果：</h2>
-    <p>{{ converted_text }}</p>
-    {% endif %}
+        <div class="input-card">
+            <form method="POST" action="/">
+                <div class="input-group">
+                    <label for="text">校正したい文章</label>
+                    <textarea id="text" name="text" rows="6">{{ original_text }}</textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="style">変換スタイル</label>
+                    <select id="style" name="style">
+                        <option value="business" {{ 'selected' if selected_style=='business' else '' }}>ビジネス（上司・取引先向け）</option>
+                        <option value="polite" {{ 'selected' if selected_style=='polite' else '' }}>丁寧（正しい日本語）</option>
+                        <option value="casual" {{ 'selected' if selected_style=='casual' else '' }}>カジュアル（フレンドリー）</option>
+                        <option value="youth" {{ 'selected' if selected_style=='youth' else '' }}>ユース（若者・流行語）</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">AIで文章を整える</button>
+            </form>
+        </div>
+
+        {% if converted_text %}
+        <div class="result-box">
+            <h2>変換結果</h2>
+            <p class="result-text">{{ converted_text }}</p>
+        </div>
+        {% endif %}
+
+    </div>
 </body>
 
 </html>
